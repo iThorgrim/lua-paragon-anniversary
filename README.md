@@ -1,8 +1,15 @@
+> [!WARNING]
+> **Paragon Anniversary** is still in development!
+
+___
+
 <div align="center">
 
 <img width="292" height="298" alt="Paragon_AI_Logo" src="https://github.com/user-attachments/assets/27482a85-186e-401a-b493-29622ce739b4" />
+</div>
 
-
+<div align="center">
+  
 # ⚡ Paragon System
 ### *for AzerothCore*
 
