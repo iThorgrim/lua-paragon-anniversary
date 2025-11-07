@@ -48,6 +48,56 @@ local function UpdatePlayerStatistics(player, paragon, apply)
     end
 end
 
+--- Updates player paragon experience based on source activity
+-- Applies experience rewards and handles level ups when experience threshold is reached
+-- @param player The player object
+-- @param paragon The paragon instance to update
+-- @param source_type The source type (1=creature, 2=achievement, 3=skill, 4=quest)
+-- @param entry The source entry ID (creature ID, achievement ID, skill ID, or quest ID)
+local function UpdatePlayerExperience(player, paragon, source_type, entry)
+    local switch_universal_key = {
+        [1] = "UNIVERSAL_CREATURE_EXPERIENCE",
+        [2] = "UNIVERSAL_ACHIEVEVEMENT_EXPERIENCE",
+        [3] = "UNIVERSAL_SKILL_EXPERIENCE",
+        [4] = "UNIVERSAL_QUEST_EXPERIENCE"
+    }
+
+    local config_key = switch_universal_key[source_type] or "UNIVERSAL_CREATURE_EXPERIENCE"
+    local universal_value = Config:GetByField(config_key)
+
+    if (not universal_value) then return false end
+
+    local switch_specific_value = {
+        ["UNIVERSAL_CREATURE_EXPERIENCE"] = Config:GetCreatureExperience(entry),
+        ["UNIVERSAL_ACHIEVEVEMENT_EXPERIENCE"] = Config:GetAchievementExperience(entry),
+        ["UNIVERSAL_SKILL_EXPERIENCE"] = Config:GetSkillExperience(entry),
+        ["UNIVERSAL_QUEST_EXPERIENCE"] = Config:GetQuestExperience(entry)
+    }
+
+    local specific_experience = switch_specific_value[config_key] or universal_value
+    if (not specific_experience) then return false end
+
+    local paragon_experience = paragon:GetExperience()
+    local paragon_max_experience = paragon:GetExperienceForNextLevel()
+
+    if (paragon_experience + specific_experience > paragon_max_experience) then
+        paragon:AddLevel(1)
+        paragon:SetExperience((paragon_experience + specific_experience) - paragon_max_experience)
+        player:SendServerResponse(Hook.Addon.Prefix, 1, paragon:GetLevel())
+        player:SendServerResponse(Hook.Addon.Prefix, 4, paragon:GetPoints())
+    elseif (paragon_experience + specific_experience == paragon_max_experience) then
+        paragon:AddLevel(1)
+        paragon:SetExperience(0)
+        player:SendServerResponse(Hook.Addon.Prefix, 1, paragon:GetLevel())
+        player:SendServerResponse(Hook.Addon.Prefix, 4, paragon:GetPoints())
+    else
+        paragon:AddExperience(specific_experience)
+    end
+
+    player:SetData("Paragon", paragon)
+    player:SendServerResponse(Hook.Addon.Prefix, 2, paragon:GetExperience(), paragon:GetExperienceForNextLevel())
+end
+
 --- Handles client request to load paragon data
 -- Sends the player's paragon level and experience information to the client addon
 -- @param player The player object making the request
@@ -60,6 +110,7 @@ function OnClientLoadRequest(player, _)
     end
 
     player:SendServerResponse(Hook.Addon.Prefix, 1, paragon:GetLevel())
+    player:SendServerResponse(Hook.Addon.Prefix, 4, paragon:GetPoints())
     player:SendServerResponse(Hook.Addon.Prefix, 2, paragon:GetExperience(), paragon:GetExperienceForNextLevel())
 
     local temp = Config:GetCategories()
@@ -113,12 +164,17 @@ function OnClientSendStatistics(player, arg_table)
         if (statistic_data.limit > 0 and statistic_value > statistic_data.limit) then return false end
 
         -- TODO: Verify that the number of points spent matches available points
-        print('ok')
+        local available_points = paragon:GetPoints()
+        if (statistic_value > available_points) then return false end
+
         paragon:SetStatValue(statistic_id, statistic_value)
+        paragon:SetPoints(available_points - statistic_value)
     end
 
+    player:SetData("Paragon", paragon)
     -- Reapply statistics after processing
     UpdatePlayerStatistics(player, paragon, true)
+    player:SendServerResponse(Hook.Addon.Prefix, 4, paragon:GetPoints())
 end
 
 --- Callback executed when player statistics data has been loaded from the database
@@ -158,6 +214,58 @@ function Hook.OnPlayerLogout(event, player)
 
     UpdatePlayerStatistics(player, paragon, false)
     paragon:Save()
+end
+
+--- Event handler triggered when a player kills a creature
+-- Awards paragon experience based on creature entry configuration
+-- @param event The event ID (7 = PLAYER_EVENT_ON_KILL_CREATURE)
+-- @param player The player object that killed the creature
+-- @param creature The creature object that was killed
+function Hook.OnPlayerKillCreature(event, player, creature)
+    local paragon = player:GetData("Paragon")
+    if (not paragon) then return end
+
+    UpdatePlayerExperience(player, paragon, 1, creature:GetEntry())
+end
+
+--- Event handler triggered when a player completes an achievement
+-- Awards paragon experience based on achievement configuration
+-- @param event The event ID (45 = PLAYER_EVENT_ON_ACHIEVEMENT_COMPLETE)
+-- @param player The player object that completed the achievement
+-- @param achievement The achievement object that was completed
+function Hook.OnPlayerAchievementComplete(event, player, achievement)
+    local paragon = player:GetData("Paragon")
+    if (not paragon) then return end
+
+    UpdatePlayerExperience(player, paragon, 2, achievement:GetId())
+end
+
+--- Event handler triggered when a player completes a quest
+-- Awards paragon experience based on quest configuration
+-- @param event The event ID (54 = PLAYER_EVENT_ON_QUEST_COMPLETE)
+-- @param player The player object that completed the quest
+-- @param quest The quest object that was completed
+function Hook.OnPlayerQuestComplete(event, player, quest)
+    local paragon = player:GetData("Paragon")
+    if (not paragon) then return end
+
+    UpdatePlayerExperience(player, paragon, 4, quest:GetId())
+end
+
+--- Event handler triggered when a player increases a skill
+-- Awards paragon experience based on skill configuration
+-- @param event The event ID (62 = PLAYER_EVENT_ON_SKILL_UPDATE)
+-- @param player The player object whose skill was updated
+-- @param skill_id The skill ID that was updated
+-- @param value Current skill value (unused)
+-- @param max Maximum skill value (unused)
+-- @param step Skill step increase (unused)
+-- @param new_value New skill value (unused)
+function Hook.OnPlayerSkillUpdate(event, player, skill_id, value, max, step, new_value)
+    local paragon = player:GetData("Paragon")
+    if (not paragon) then return end
+
+    UpdatePlayerExperience(player, paragon, 3, skill_id)
 end
 
 --- Event handler triggered when the Lua state (world) is opened
@@ -203,6 +311,10 @@ RegisterPlayerEvent(42, Hook.OnPlayerCommand)
 -- Player Events
 RegisterPlayerEvent(3, Hook.OnPlayerLogin)
 RegisterPlayerEvent(4, Hook.OnPlayerLogout)
+RegisterPlayerEvent(7, Hook.OnPlayerKillCreature)
+RegisterPlayerEvent(45, Hook.OnPlayerAchievementComplete)
+RegisterPlayerEvent(54, Hook.OnPlayerQuestComplete)
+RegisterPlayerEvent(62, Hook.OnPlayerSkillUpdate)
 
 -- Server Events
 RegisterServerEvent(33, Hook.OnLuaStateOpen)

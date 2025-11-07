@@ -3,6 +3,17 @@ local Config = require("paragon_config")
 
 local Paragon = Object:extend()
 
+--- Local Functions
+local function CalculateAvailablePoints(paragon)
+    local used_points = 0
+
+    for stat_id, stat_value in pairs(paragon:GetStatistics()) do
+        used_points = used_points + stat_value
+    end
+
+    paragon.points = (paragon.level * Config:GetByField("POINTS_PER_LEVEL")) - used_points
+end
+
 --- Constructor for the Paragon class
 -- Initializes a new paragon instance with default values
 -- @param player_guid The player's GUID to associate with this paragon instance
@@ -49,6 +60,7 @@ function Paragon:load_stat(callback)
             self.statistics = data
         end
 
+        CalculateAvailablePoints(self)
         callback(self.guid, self)
     end)
 end
@@ -64,6 +76,9 @@ end
 -- @return Self for method chaining
 function Paragon:SetLevel(level)
     self.level = level
+    self.exp.max = tonumber(Config:GetByField("BASE_MAX_EXPERIENCE")) * self.level
+    
+    CalculateAvailablePoints(self)
     return self
 end
 
@@ -72,6 +87,27 @@ end
 -- @return Self for method chaining
 function Paragon:AddLevel(level)
     return self:SetLevel(self:GetLevel() + level)
+end
+
+--- Gets the number of available paragon points
+-- @return The number of available points to spend
+function Paragon:GetPoints()
+    return self.points
+end
+
+--- Sets the number of available paragon points
+-- @param points The new number of available points
+-- @return Self for method chaining
+function Paragon:SetPoints(points)
+    self.points = points
+    return self
+end
+
+--- Adds points to the available paragon points
+-- @param points The amount of points to add
+-- @return Self for method chaining
+function Paragon:AddPoints(points)
+    return self:SetPoints(self:GetPoints() + points)
 end
 
 --- Gets the current experience points

@@ -199,7 +199,14 @@ return {
         -- Select all statistics for a character
         SEL_PARA_STAT = "SELECT stat_id, stat_value FROM `%s`.`character_paragon_stats` WHERE guid = %d;",
 
-        INS_PARA_STAT = "INSERT INTO `%s`.`character_paragon_stats` (guid, stat_id, stat_value) VALUES (%d, %d, %d) ON DUPLICATE KEY UPDATE stat_value = VALUES(stat_value);"
+        INS_PARA_STAT = "INSERT INTO `%s`.`character_paragon_stats` (guid, stat_id, stat_value) VALUES (%d, %d, %d) ON DUPLICATE KEY UPDATE stat_value = VALUES(stat_value);",
+
+
+        --
+        SEL_CONFIG_EXP_CREATURE = "SELECT id, experience FROM `%s`.`paragon_config_experience_creature`;",
+        SEL_CONFIG_EXP_ACHIEVEMENT = "SELECT id, experience FROM `%s`.`paragon_config_experience_achievement`;",
+        SEL_CONFIG_EXP_SKILL = "SELECT id, experience FROM `%s`.`paragon_config_experience_skill`;",
+        SEL_CONFIG_EXP_QUEST = "SELECT id, experience FROM `%s`.`paragon_config_experience_quest`;"
     },
 
     --- Statistic Type Enumerations

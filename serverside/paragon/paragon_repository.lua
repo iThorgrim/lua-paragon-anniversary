@@ -53,7 +53,7 @@ function Repository:GetConfigStatistics()
     local results = CharDBQuery(sf(Constants.QUERY.SEL_CONFIG_STAT, Constants.DB_NAME))
     if not results then return false end
 
-    statistics = {}
+    local statistics = {}
 
     repeat
         local stat_id           = results:GetUInt32(0)
@@ -77,6 +77,56 @@ function Repository:GetConfigStatistics()
     until not results:NextRow()
 
     return statistics
+end
+
+--- Processes experience query results into a key-value table
+-- @param results The database query results
+-- @return Table mapping entry IDs to experience values
+local function ProcessTypeExperience(results)
+    local data = {}
+    repeat
+        local entry = results:GetUInt32(0)
+        local experience = results:GetUInt32(1)
+
+        data[entry] = experience
+    until not results:NextRow()
+    return data
+end
+
+--- Retrieves paragon experience rewards for creature kills
+-- @return Table mapping creature entry IDs to experience rewards, or false if query fails
+function Repository:GetConfigCreatureExperience()
+    local results = CharDBQuery(sf(Constants.QUERY.SEL_CONFIG_EXP_CREATURE, Constants.DB_NAME))
+    if not results then return false end
+
+    return ProcessTypeExperience(results)
+end
+
+--- Retrieves paragon experience rewards for achievements
+-- @return Table mapping achievement IDs to experience rewards, or false if query fails
+function Repository:GetConfigAchievementExperience()
+    local results = CharDBQuery(sf(Constants.QUERY.SEL_CONFIG_EXP_ACHIEVEMENT, Constants.DB_NAME))
+    if not results then return false end
+
+    return ProcessTypeExperience(results)
+end
+
+--- Retrieves paragon experience rewards for skill increases
+-- @return Table mapping skill IDs to experience rewards, or false if query fails
+function Repository:GetConfigSkillExperience()
+    local results = CharDBQuery(sf(Constants.QUERY.SEL_CONFIG_EXP_SKILL, Constants.DB_NAME))
+    if not results then return false end
+
+    return ProcessTypeExperience(results)
+end
+
+--- Retrieves paragon experience rewards for quest completion
+-- @return Table mapping quest IDs to experience rewards, or false if query fails
+function Repository:GetConfigQuestExperience()
+    local results = CharDBQuery(sf(Constants.QUERY.SEL_CONFIG_EXP_QUEST, Constants.DB_NAME))
+    if not results then return false end
+
+    return ProcessTypeExperience(results)
 end
 
 --- Asynchronously retrieves paragon level and experience data for a character

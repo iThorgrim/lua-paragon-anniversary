@@ -8,6 +8,8 @@ local Instance = nil
 function Config:new()
     -- Build category / stat data
     self:BuildParagonData()
+    -- Build experience data
+    self:BuildParagonExperience()
 
     local config_data = Repository:GetConfig()
     self.config = config_data
@@ -60,6 +62,50 @@ function Config:BuildParagonData()
         }
     end
     self.categories = data
+end
+
+--- Builds the experience data structure from database sources
+-- Retrieves experience multipliers for creatures, achievements, skills, and quests
+function Config:BuildParagonExperience()
+    local creature_data = Repository:GetConfigCreatureExperience()
+    local achievement_data = Repository:GetConfigAchievementExperience()
+    local skill_data = Repository:GetConfigSkillExperience()
+    local quest_data = Repository:GetConfigQuestExperience()
+
+    self.experience = {
+        creature = creature_data or {},
+        achievement = achievement_data or {},
+        skill = skill_data or {},
+        quest = quest_data or {}
+    }
+end
+
+--- Retrieves the paragon experience reward for a creature by entry ID
+-- @param entry The creature entry ID
+-- @return The experience reward value or nil if not configured
+function Config:GetCreatureExperience(entry)
+    return self.experience.creature[entry]
+end
+
+--- Retrieves the paragon experience reward for an achievement by ID
+-- @param entry The achievement ID
+-- @return The experience reward value or nil if not configured
+function Config:GetAchievementExperience(entry)
+    return self.experience.achievement[entry]
+end
+
+--- Retrieves the paragon experience reward for a skill by skill ID
+-- @param entry The skill ID
+-- @return The experience reward value or nil if not configured
+function Config:GetSkillExperience(entry)
+    return self.experience.skill[entry]
+end
+
+--- Retrieves the paragon experience reward for a quest by quest ID
+-- @param entry The quest ID
+-- @return The experience reward value or nil if not configured
+function Config:GetQuestExperience(entry)
+    return self.experience.quest[entry]
 end
 
 --- Gets the singleton instance of Config
