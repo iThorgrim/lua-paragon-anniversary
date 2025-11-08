@@ -53,6 +53,18 @@ The **Paragon System** introduces an endgame progression mechanic for AzerothCor
 
 ---
 
+## 🎬 Preview
+
+<div align="center">
+
+[![Watch Paragon Anniversary Demo](https://img.youtube.com/vi/JEyiI8Y-l8M/maxresdefault.jpg)](https://www.youtube.com/watch?v=JEyiI8Y-l8M)
+
+**Click to watch the Paragon Anniversary demo on YouTube** 🎥
+
+</div>
+
+---
+
 ## 🏗️ Architecture
 
 <table>
