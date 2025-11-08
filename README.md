@@ -1,5 +1,6 @@
-> [!WARNING]
-> **Paragon Anniversary** is still in development!
+> [!NOTE]
+> **Paragon Anniversary** Serverside is now feature-complete and stable!
+> Clientside UI is still in development with some features to complete.
 
 ___
 
@@ -20,6 +21,16 @@ ___
 *Endless progression system - Continue growing beyond max level*
 
 </div>
+
+---
+
+## 📊 Status
+
+| Component | Status | Notes |
+|-----------|--------|-------|
+| **Serverside** | ✅ **Stable** | All core features complete, dual-mode system fully implemented, extensive testing |
+| **Clientside** | 🔧 **In Progress** | Basic UI working, some advanced features to complete |
+| **Documentation** | ✅ **Complete** | Full code docs, architecture guides, and hook specifications |
 
 ---
 
@@ -48,13 +59,18 @@ The **Paragon System** introduces an endgame progression mechanic for AzerothCor
 <tr>
 <td width="50%">
 
-### 📦 **Components**
+### 📦 **Core Components**
 
-- `paragon_constant.lua` - Constants & DB queries
-- `paragon_repository.lua` - Database access layer
-- `paragon_config.lua` - Configuration service
-- `paragon_class.lua` - Paragon business logic
-- `paragon_hook.lua` - Event handlers & client comm
+- `paragon_constant.lua` - Constants & SQL queries
+- `paragon_repository.lua` - Database access layer (Singleton)
+- `paragon_config.lua` - Configuration service (Singleton)
+- `paragon_class.lua` - Paragon business logic & state
+- `paragon_hook.lua` - Event handlers & client communication
+
+### 🧩 **Module System**
+
+- `modules/paragon_anniversary.lua` - Experience & level-up mechanics
+- Extensible via Mediator pattern for custom features
 
 </td>
 <td width="50%">
@@ -64,19 +80,26 @@ The **Paragon System** introduces an endgame progression mechanic for AzerothCor
 **Configuration Tables:**
 - `paragon_config_category` - Stat categories
 - `paragon_config_statistic` - Available stats
-- `paragon_config` - General settings
-- `paragon_config_experience_creature` - Creature experience rewards
-- `paragon_config_experience_achievement` - Achievement experience rewards
-- `paragon_config_experience_skill` - Skill experience rewards
-- `paragon_config_experience_quest` - Quest experience rewards
+- `paragon_config` - General settings (key-value pairs)
+- `paragon_config_experience_*` - Experience rewards by source
 
-**Character Data:**
-- `character_paragon` - Player levels & XP
-- `character_paragon_stats` - Invested points
+**Character Data (Character-Linked Mode):**
+- `character_paragon` - Player levels & XP per character
+- `character_paragon_stats` - Invested points per character
+
+**Account Data (Account-Linked Mode):**
+- `account_paragon` - Account-wide levels & XP
+- `character_paragon_stats` - Stats always per character
 
 </td>
 </tr>
 </table>
+
+### 🔄 **Dual-Mode System**
+
+Configure `LEVEL_LINKED_TO_ACCOUNT` in `paragon_config`:
+- **`0` (Default)**: Character-linked - Each character has independent progression
+- **`1`**: Account-linked - All characters on account share level/XP but have separate stat investments
 
 ---
 
@@ -89,10 +112,9 @@ The **Paragon System** introduces an endgame progression mechanic for AzerothCor
 3. ⚙️ Configure `paragon_config` table with your desired settings
 4. 🔄 Restart your AzerothCore server
 
-### Client-Side (Addon)
+### Client-Side ()
 
-1. 📥 Install the **ParagonAnniversary** addon in your WoW client
-2. 🎮 Interface displays paragon level and experience in-game
+*soonTM*
 
 > **📝 Note**: Requires ALE engine installed on AzerothCore
 
@@ -102,14 +124,47 @@ The **Paragon System** introduces an endgame progression mechanic for AzerothCor
 
 Configure the system via database entries in `paragon_config`:
 
-| Field | Description | Example |
+### System Control
+
+| Field | Description | Default |
 |-------|-------------|---------|
-| `BASE_MAX_EXPERIENCE` | XP needed per level (multiplied by level) | `1000` |
+| `ENABLE_PARAGON_SYSTEM` | Enable/disable the entire system | `1` |
+| `LEVEL_LINKED_TO_ACCOUNT` | Character-linked (0) vs Account-linked (1) mode | `0` |
+| `PARAGON_LEVEL_CAP` | Maximum paragon level (0 = unlimited) | `999` |
+| `MINIMUM_LEVEL_FOR_PARAGON_XP` | Minimum character level to earn paragon XP | `0` |
+
+### Progression Settings
+
+| Field | Description | Default |
+|-------|-------------|---------|
+| `BASE_MAX_EXPERIENCE` | Base XP per level (multiplied by level) | `1000` |
 | `POINTS_PER_LEVEL` | Points awarded per paragon level | `1` |
-| `UNIVERSAL_CREATURE_EXPERIENCE` | Default experience reward for creature kills | `50` |
-| `UNIVERSAL_ACHIEVEVEMENT_EXPERIENCE` | Default experience reward for achievements | `100` |
-| `UNIVERSAL_SKILL_EXPERIENCE` | Default experience reward for skill increases | `25` |
-| `UNIVERSAL_QUEST_EXPERIENCE` | Default experience reward for quest completion | `75` |
+| `PARAGON_STARTING_LEVEL` | Starting paragon level for new characters | `1` |
+| `PARAGON_STARTING_EXPERIENCE` | Starting experience value | `0` |
+
+### Experience Rewards
+
+| Field | Description | Default |
+|-------|-------------|---------|
+| `UNIVERSAL_CREATURE_EXPERIENCE` | Default XP for creature kills | `50` |
+| `UNIVERSAL_ACHIEVEVEMENT_EXPERIENCE` | Default XP for achievements | `100` |
+| `UNIVERSAL_SKILL_EXPERIENCE` | Default XP for skill increases | `25` |
+| `UNIVERSAL_QUEST_EXPERIENCE` | Default XP for quest completion | `75` |
+
+### Experience Multipliers
+
+| Field | Description | Default |
+|-------|-------------|---------|
+| `EXPERIENCE_MULTIPLIER_LOW_LEVEL` | Bonus multiplier for low-level paragons | `1.5` |
+| `EXPERIENCE_MULTIPLIER_HIGH_LEVEL` | Penalty multiplier for high-level paragons | `0.8` |
+| `LOW_LEVEL_THRESHOLD` | Paragon level below which bonus applies | `5` |
+| `HIGH_LEVEL_THRESHOLD` | Paragon level above which penalty applies | `100` |
+
+### Other Settings
+
+| Field | Description | Default |
+|-------|-------------|---------|
+| `DEFAULT_STAT_LIMIT` | Maximum points per individual stat (1-255) | `255` |
 
 ### Adding Custom Stats
 
@@ -257,14 +312,20 @@ end
 paragon/
 ├── lib/
 │   ├── classic/
-│   │   └── classic.ext
+│   │   └── classic.ext             # OOP library
+│   ├── Mediator/
+│   │   └── mediator.lua            # Event system
 │   └── CSMH/
 │       └── SMH.ext
-├── paragon_constant.lua            # Constants, queries, stat enums
+├── modules/
+│   ├── paragon_anniversary.lua     # Experience & level-up mechanics
+│   └── README.md                   # Module documentation
+├── paragon_constant.lua            # Constants, SQL queries, stat enums
 ├── paragon_repository.lua          # Database access layer (Singleton)
 ├── paragon_config.lua              # Configuration service (Singleton)
-├── paragon_class.lua               # Paragon entity class
-├── paragon_hook.lua                # Event handlers & main entry point
+├── paragon_class.lua               # Paragon entity & business logic
+├── paragon_hook.lua                # Event handlers & entry point
+├── HOOKS.md                        # Complete hook documentation
 └── README.md                       # This file
 ```
 
@@ -288,10 +349,28 @@ Apply Statistics to Player & Send Data to Client (ParagonAnniversary addon)
 
 ---
 
+## 🎯 Recent Improvements
+
+### Latest Features (Latest Release)
+- ✅ **Dual-Mode System**: Character-linked and account-linked paragon progression
+- ✅ **Mediator Pattern Integration**: Extensible event system for custom modules
+- ✅ **Module System**: Modular business logic via `paragon_anniversary.lua`
+- ✅ **Robust Error Handling**: Fallback defaults for all configuration values
+- ✅ **Complete Documentation**: HOOKS.md with all Mediator events documented
+- ✅ **Advanced Routing**: Runtime table selection based on LEVEL_LINKED_TO_ACCOUNT
+
+### Architecture Highlights
+- **Singleton Pattern**: Config and Repository are single instances
+- **Repository Pattern**: Clean database abstraction layer
+- **Mediator Pattern**: Decoupled event-driven architecture
+- **Object-Oriented Design**: Using classic.lua for OOP
+
+---
+
 ## 🏆 Credits
 
 - 🔧 **Development**: Custom system for AzerothCore
-- 🎨 **Concept**: Inspired by retail WoW Paragon reputation systems
+- 🎨 **Concept**: Inspired by Diablo 3 Paragon systems
 - 🙏 **Thanks**: AzerothCore & ALE communities
 
 ---
@@ -300,6 +379,6 @@ Apply Statistics to Player & Send Data to Client (ParagonAnniversary addon)
 
 ### ⚡ **Ready to add endless progression?**
 
-*This system is designed for AzerothCore private servers using ALE*
+*Stable serverside system ready for production use on AzerothCore with ALE*
 
 </div>
