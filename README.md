@@ -28,9 +28,24 @@ ___
 
 | Component | Status | Notes |
 |-----------|--------|-------|
-| **Serverside** | ✅ **Stable** | All core features complete, dual-mode system fully implemented, extensive testing |
-| **Clientside** | 🔧 **In Progress** | Basic UI working, some advanced features to complete |
+| **Serverside** | ⚙️ **Beta** | All core features complete, dual-mode system fully implemented, stabilization in progress |
+| **Clientside** | 🎨 **Beta** | Core UI functional, features and refinement in progress |
 | **Documentation** | ✅ **Complete** | Full code docs, architecture guides, and hook specifications |
+
+---
+
+## ⚠️ Platform Availability
+
+> [!IMPORTANT]
+> **The Paragon System is currently available exclusively for AzerothCore (3.3.5a).**
+>
+> We are focusing on ensuring all functionality is stable and bug-free on AzerothCore before expanding to other platforms. This allows us to provide a reliable and well-tested experience.
+>
+> **Future Plans:**
+> - 📅 After stabilization on AzerothCore, a port to **ElunaTrinityWotlk** is planned
+> - 🔄 Additional emulator support may follow based on community demand
+>
+> If you're using a different emulator and interested in compatibility, please open an issue on the project repository.
 
 ---
 
@@ -57,7 +72,7 @@ The **Paragon System** introduces an endgame progression mechanic for AzerothCor
 
 <div align="center">
 
-[![Watch Paragon Anniversary Demo](https://img.youtube.com/vi/JEyiI8Y-l8M/maxresdefault.jpg)](https://www.youtube.com/watch?v=JEyiI8Y-l8M)
+[![Watch Paragon Anniversary Demo](https://img.youtube.com/vi/JEyiI8Y-l8M/maxresdefault.jpg)](https://www.youtube.com/watch?v=6ZtVBOo93YI)
 
 **Click to watch the Paragon Anniversary demo on YouTube** 🎥
 
@@ -115,20 +130,26 @@ Configure `LEVEL_LINKED_TO_ACCOUNT` in `paragon_config`:
 
 ---
 
-## 🚀 Installation
+## 🚀 Quick Installation
 
-### Server-Side (Lua Scripts)
+### Quick Start (3 Steps)
 
 1. 📁 Copy the `paragon` folder to your ALE scripts directory
-2. 🗃️ Database tables are created automatically on first server start
+2. 🔄 Restart your AzerothCore server (tables auto-create)
 3. ⚙️ Configure `paragon_config` table with your desired settings
-4. 🔄 Restart your AzerothCore server
-
-### Client-Side ()
-
-*soonTM*
 
 > **📝 Note**: Requires ALE engine installed on AzerothCore
+
+### 📖 Detailed Installation Guide
+
+For complete installation instructions including:
+- ✅ Prerequisites and dependencies
+- ✅ Step-by-step server setup
+- ✅ Database configuration
+- ✅ Client-side addon installation
+- ✅ Testing and troubleshooting
+
+**👉 [Read the Full Installation Guide](doc/INSTALL.md)**
 
 ---
 
@@ -285,7 +306,11 @@ Experience rewards are configurable per source with:
 
 ---
 
-## 📚 Code Documentation
+## 📚 Documentation
+
+The Paragon System includes comprehensive documentation:
+
+### Code Documentation
 
 All code is fully documented with **LuaDoc** comments:
 
@@ -305,16 +330,34 @@ function Config:GetCreatureExperience(entry)
 end
 ```
 
+### Documentation Files
+
+Complete guides and API documentation are available in the `doc/` directory:
+
+- **[Installation Guide](doc/INSTALL.md)** - Step-by-step installation and configuration
+- **[Hook Reference](doc/HOOKS.md)** - Complete Mediator hooks specification
+- **[Module Development](doc/MODULES.md)** - Guide for creating custom modules
+- **[Libraries](doc/LIBRARIES.md)** - Documentation for Classic, CSMH, and Mediator
+- **[Development Roadmap](doc/TODO.md)** - Planned features and development tasks
+
 ---
 
 ## 📊 Compatibility
 
+### Emulator Support
+
+| Emulator | Version | Status | Notes |
+|----------|---------|--------|-------|
+| 🎮 **AzerothCore** | 3.3.5a | ✅ **Supported** | Primary development platform |
+| 🌙 **ElunaTrinityWotlk** | 3.3.5a | 📅 **Planned** | Port scheduled after AzerothCore stabilization |
+
+### Required Dependencies
+
 | Component | Version | Status |
 |-----------|---------|--------|
-| 🎮 **AzerothCore** | 3.3.5a | ✅ **Tested** |
 | 🔧 **ALE** | Latest | ✅ **Required** |
 | 📚 **Classic** | Any | ✅ **Required** |
-| 🔌 **SMH** | Any | ✅ **Required** |
+| 🔌 **CSMH** | Any | ✅ **Required** |
 
 ---
 
@@ -337,8 +380,13 @@ paragon/
 ├── paragon_config.lua              # Configuration service (Singleton)
 ├── paragon_class.lua               # Paragon entity & business logic
 ├── paragon_hook.lua                # Event handlers & entry point
-├── HOOKS.md                        # Complete hook documentation
 └── README.md                       # This file
+
+doc/
+├── INSTALL.md                      # Installation guide
+├── HOOKS.md                        # Complete hook documentation
+├── MODULES.md                      # Module development guide
+└── LIBRARIES.md                    # Libraries documentation (Classic, CSMH, Mediator)
 ```
 
 ---
