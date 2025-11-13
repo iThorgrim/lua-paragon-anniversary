@@ -1,0 +1,347 @@
+<Ui xmlns="http://www.blizzard.com/wow/ui/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.blizzard.com/wow/ui/ ../FrameXML/UI.xsd">
+
+    <Script>
+        function SetFramePortrait(frame, texture)
+            if not frame or not frame.PortraitFrame or not frame.PortraitFrame.Portrait then
+                return
+            end
+
+            SetPortraitToTexture(frame.PortraitFrame.Portrait, texture)
+        end
+
+        function SetFrameTitle(frame, title)
+            if not frame or not frame.TitleText then return end
+            frame.TitleText:SetText(title)
+        end
+    </Script>
+
+    <Font name="SystemFont_Large" font="Fonts\FRIZQT__.TTF" virtual="true">
+        <FontHeight val="11"/>
+        <Color r="0" g="0" b="0"/>
+    </Font>
+
+    <Font name="SystemFont_Med1" font="Fonts\FRIZQT__.TTF" virtual="true">
+        <FontHeight val="10"/>
+        <Color r="0" g="0" b="0" a=".5"/>
+    </Font>
+
+    <Button name="BigRedThreeSliceButtonTemplate" virtual="true">
+        <Size x="441" y="128"/>
+
+        <NormalTexture file="Interface\Buttons\128RedButton9Sliced">
+            <TexCoords left="0.00195312" right="0.919922" top="0.509766" bottom="0.759766"/>
+        </NormalTexture>
+
+        <PushedTexture file="Interface\Buttons\128RedButton9Sliced">
+            <TexCoords left="0.00195312" right="0.919922" top="0.255859" bottom="0.505859"/>
+        </PushedTexture>
+
+        <DisabledTexture file="Interface\Buttons\128RedButton9Sliced">
+            <TexCoords left="0.00195312" right="0.919922" top="0.00195312" bottom="0.251953"/>
+        </DisabledTexture>
+
+        <HighlightTexture file="Interface\Buttons\128RedButton" alphaMode="ADD">
+            <TexCoords left="0.00195312" right="0.863281" top="0.190918" bottom="0.253418"/>
+        </HighlightTexture>
+
+        <PushedTextOffset x="-2" y="-1"/>
+    </Button>
+
+    <Frame name="MetalFrame2X" enableMouse="true" virtual="true" movable="true" resizable="true">
+        <Size x="300" y="300"/>
+
+        <Scripts>
+            <OnLoad>
+                self:RegisterForDrag("LeftButton");
+                self:SetResizable(true);
+                self:SetMinResize(100, 100);
+                self:SetClampedToScreen(true);
+            </OnLoad>
+            <OnDragStart>
+                if self:IsMovable() then
+                    self:StartMoving();
+                end
+            </OnDragStart>
+            <OnDragStop>
+                self:StopMovingOrSizing();
+            </OnDragStop>
+        </Scripts>
+
+        <Frames>
+            <Frame name="$parentTitle" parentKey="Title" toplevel="true" frameLevel="11">
+                <Size x="150" y="150"/>
+
+                <Anchors>
+                    <Anchor point="TOP"/>
+                </Anchors>
+
+                <Layers>
+                    <Layer level="BORDER">
+                        <FontString name="$parentText" parentKey="Text" inherits="GameFontNormal">
+                            <Anchors>
+                                <Anchor point="TOP" x="0" y="7"/>
+                            </Anchors>
+                        </FontString>
+                    </Layer>
+                </Layers>
+            </Frame>
+
+            <Frame name="$parentMetalBorder" parentKey="MetalBorder" frameLevel="10">
+                <Anchors>
+                    <Anchor point="TOPLEFT" x="-15" y="30"/>
+                    <Anchor point="BOTTOMRIGHT" x="5" y="-5"/>
+                </Anchors>
+                <Layers>
+                    <Layer level="OVERLAY">
+                        <Texture name="$parentCornerTopLeft" parentKey="CornerTopLeft" file="Interface/FrameGeneral/UIFrameMetal2x">
+                            <Size x="75" y="75"/>
+                            <Anchors>
+                                <Anchor point="TOPLEFT" x="0" y="-1"/>
+                            </Anchors>
+                            <TexCoords left="0.00195312" right="0.294922" top="0.298828" bottom="0.591797"/>
+                        </Texture>
+
+                        <Texture name="$parentCornerTopRight" parentKey="CornerTopRight" file="Interface/FrameGeneral/UIFrameMetal2x">
+                            <Size x="75" y="75"/>
+                            <Anchors>
+                                <Anchor point="TOPRIGHT" x="0" y="-1"/>
+                            </Anchors>
+                            <TexCoords left="0.298828" right="0.591797" top="0.00195312" bottom="0.294922"/>
+                        </Texture>
+
+                        <Texture name="$parentCornerBottomLeft" parentKey="CornerBottomLeft" file="Interface/FrameGeneral/UIFrameMetal2x">
+                            <Size x="32" y="32"/>
+                            <Anchors>
+                                <Anchor point="BOTTOMLEFT" x="0" y="0"/>
+                            </Anchors>
+                            <TexCoords left="0.298828" right="0.423828" top="0.298828" bottom="0.423828"/>
+                        </Texture>
+
+                        <Texture name="$parentCornerBottomRight" parentKey="CornerBottomRight" file="Interface/FrameGeneral/UIFrameMetal2x">
+                            <Size x="32" y="32"/>
+                            <Anchors>
+                                <Anchor point="BOTTOMRIGHT" x="0" y="0"/>
+                            </Anchors>
+                            <TexCoords left="0.427734" right="0.552734" top="0.298828" bottom="0.423828"/>
+                        </Texture>
+
+                        <Texture name="$parentBorderTop" parentKey="BorderTop" file="Interface/FrameGeneral/UIFrameMetalHorizontal2x" horizTile="true">
+                            <Size x="32" y="75"/>
+                            <Anchors>
+                                <Anchor point="TOPLEFT" relativeTo="$parentCornerTopLeft" relativePoint="TOPRIGHT"/>
+                                <Anchor point="TOPRIGHT" relativeTo="$parentCornerTopRight" relativePoint="TOPLEFT"/>
+                            </Anchors>
+                            <TexCoords left="0" right="0" top="0.00390625" bottom="0.589844"/>
+                        </Texture>
+
+                        <Texture name="$parentBorderLeft" parentKey="BorderLeft" file="Interface/FrameGeneral/UIFrameMetalVertical2x" vertTile="true">
+                            <Size x="75" y="0"/>
+                            <Anchors>
+                                <Anchor point="TOPLEFT" relativeTo="$parentCornerTopLeft" relativePoint="BOTTOMLEFT" x="0" y="0"/>
+                                <Anchor point="BOTTOMLEFT" relativeTo="$parentCornerBottomLeft" relativePoint="TOPLEFT" x="0" y="0"/>
+                            </Anchors>
+                            <TexCoords left="0.00195312" right="0.294922" top="0" bottom="1"/>
+                        </Texture>
+
+                        <Texture name="$parentBorderRight" parentKey="BorderRight" file="Interface/FrameGeneral/UIFrameMetalVertical2x" vertTile="true">
+                            <Size x="75" y="0"/>
+                            <Anchors>
+                                <Anchor point="TOPRIGHT" relativeTo="$parentCornerTopRight" relativePoint="BOTTOMRIGHT" x="0" y="0"/>
+                                <Anchor point="BOTTOMRIGHT" relativeTo="$parentCornerBottomRight" relativePoint="TOPRIGHT" x="0" y="0"/>
+                            </Anchors>
+                            <TexCoords left="0.298828" right="0.591797" top="0" bottom="1"/>
+                        </Texture>
+
+                        <Texture name="$parentBorderBottom" parentKey="BorderBottom" file="Interface/FrameGeneral/UIFrameMetalHorizontal2x" horizTile="true">
+                            <Size x="0" y="32"/>
+                            <Anchors>
+                                <Anchor point="BOTTOMLEFT" relativeTo="$parentCornerBottomLeft" relativePoint="BOTTOMRIGHT" x="0" y="0"/>
+                                <Anchor point="BOTTOMRIGHT" relativeTo="$parentCornerBottomRight" relativePoint="BOTTOMLEFT" x="0" y="0"/>
+                            </Anchors>
+                            <TexCoords left="0" right="1" top="0.597656" bottom="0.847656"/>
+                        </Texture>
+                    </Layer>
+                </Layers>
+            </Frame>
+
+            <Frame name="$parentPortraitFrame" parentKey="PortraitFrame" frameLevel="5">
+                <Size x="60" y="60"/>
+                <Anchors>
+                    <Anchor point="TOPLEFT" relativeTo="$parentMetalBorder" x="8" y="-9"/>
+                </Anchors>
+                <Layers>
+                    <Layer level="ARTWORK">
+                        <Texture name="$parentPortrait" parentKey="Portrait">
+                            <Anchors>
+                                <Anchor point="TOPLEFT" x="0" y="0"/>
+                                <Anchor point="BOTTOMRIGHT" x="0" y="0"/>
+                            </Anchors>
+                        </Texture>
+                    </Layer>
+                </Layers>
+            </Frame>
+
+            <!-- Boutons de contrôle -->
+            <Button name="$parentCloseButton" parentKey="CloseButton" inherits="CloseButtonTemplate, CloseButton2X" frameLevel="20">
+                <Anchors>
+                    <Anchor point="TOPRIGHT" relativeTo="$parentMetalBorder" relativePoint="TOPRIGHT" x="-4" y="-17"/>
+                </Anchors>
+            </Button>
+
+            <Frame name="$parentMaximizeMinimizeButton" parentKey="MaximizeMinimizeButton" frameLevel="20" inherits="MaximizeMinimizeButtonFrameTemplate">
+                <Anchors>
+                    <Anchor point="RIGHT" relativeTo="$parentCloseButton" relativePoint="LEFT" x="0" y="0"/>
+                </Anchors>
+            </Frame>
+        </Frames>
+    </Frame>
+
+    <!-- Template combiné pour créer un cadre avec portrait -->
+    <Frame name="PortraitFrame2X" inherits="MetalFrame2X" virtual="true" enableMouse="true">
+        <Scripts>
+            <OnLoad>
+                getmetatable(self).__index.OnLoad(self);
+
+                if self.PortraitFrame and self.PortraitFrame.Portrait then
+                    SetPortraitToTexture(self.PortraitFrame.Portrait, "Interface\\Icons\\INV_Misc_QuestionMark");
+                end
+            </OnLoad>
+        </Scripts>
+    </Frame>
+
+    <!-- Boutons existants -->
+    <Button name="CloseButton2X" enableMouse="true" inherits="CloseButton" virtual="true" >
+        <Size>
+            <AbsDimension x="24" y="24"/>
+        </Size>
+
+        <Scripts>
+            <OnLoad>
+                self:RegisterForClicks("LeftButtonUp");
+            </OnLoad>
+            <OnClick>
+                if self.OnClick then
+                    self:OnClick();
+                end
+
+                if self:GetParent() then
+                    self:GetParent():Hide();
+                end
+            </OnClick>
+            <OnEnter>
+                if self.OnEnterScript then
+                    self:OnEnterScript();
+                end
+            </OnEnter>
+            <OnLeave>
+                if self.OnLeaveScript then
+                    self:OnLeaveScript();
+                end
+            </OnLeave>
+        </Scripts>
+
+        <NormalTexture file="Interface/Buttons/redbutton2x">
+            <TexCoords left="0.152344" right="0.292969" top="0.0078125" bottom="0.304688"/>
+        </NormalTexture>
+
+        <PushedTexture file="Interface/Buttons/redbutton2x">
+            <TexCoords left="0.152344" right="0.292969" top="0.632812" bottom="0.929688"/>
+        </PushedTexture>
+
+        <DisabledTexture file="Interface/Buttons/redbutton2x">
+            <TexCoords left="0.152344" right="0.292969" top="0.320312" bottom="0.617188"/>
+        </DisabledTexture>
+
+        <HighlightTexture file="Interface/Buttons/redbutton2x" alphaMode="ADD">
+            <TexCoords left="0.449219" right="0.589844" top="0.0078125" bottom="0.304688"/>
+        </HighlightTexture>
+    </Button>
+
+    <Button parentKey="MaximizeButton2X" enableMouse="true" hidden="true" virtual="true">
+        <Size>
+            <AbsDimension x="24" y="24"/>
+        </Size>
+
+        <Scripts>
+            <OnLoad>
+                self:RegisterForClicks("LeftButtonUp");
+            </OnLoad>
+            <OnClick>
+                if self.OnClick then
+                    self:OnClick();
+                end
+                PlaySoundFile("Interface/FrameXML/Sound/uchatscrollbutton.ogg");
+            </OnClick>
+            <OnEnter>
+                if self.OnEnterScript then
+                    self:OnEnterScript();
+                end
+            </OnEnter>
+            <OnLeave>
+                if self.OnLeaveScript then
+                    self:OnLeaveScript();
+                end
+            </OnLeave>
+        </Scripts>
+
+        <NormalTexture file="Interface/Buttons/redbutton2x">
+            <TexCoords left="0.300781" right="0.441406" top="0.0078125" bottom="0.304688"/>
+        </NormalTexture>
+
+        <PushedTexture file="Interface/Buttons/redbutton2x">
+            <TexCoords left="0.300781" right="0.441406" top="0.632812" bottom="0.929688"/>
+        </PushedTexture>
+
+        <DisabledTexture file="Interface/Buttons/redbutton2x">
+            <TexCoords left="0.152344" right="0.292969" top="0.320312" bottom="0.617188"/>
+        </DisabledTexture>
+
+        <HighlightTexture file="Interface/Buttons/redbutton2x" alphaMode="ADD">
+            <TexCoords left="0.449219" right="0.589844" top="0.0078125" bottom="0.304688"/>
+        </HighlightTexture>
+    </Button>
+
+    <Button parentKey="MinimizeButton2X" enableMouse="true" hidden="true" virtual="true">
+        <Size>
+            <AbsDimension x="24" y="24"/>
+        </Size>
+
+        <Scripts>
+            <OnLoad>
+                self:RegisterForClicks("LeftButtonUp");
+            </OnLoad>
+            <OnClick>
+                if self.OnClick then
+                    self:OnClick();
+                end
+                PlaySoundFile("Interface/FrameXML/Sound/uchatscrollbutton.ogg");
+            </OnClick>
+            <OnEnter>
+                if self.OnEnterScript then
+                    self:OnEnterScript();
+                end
+            </OnEnter>
+            <OnLeave>
+                if self.OnLeaveScript then
+                    self:OnLeaveScript();
+                end
+            </OnLeave>
+        </Scripts>
+
+        <NormalTexture file="Interface/Buttons/redbutton2x">
+            <TexCoords left="0.00390625" right="0.144531" top="0.0078125" bottom="0.304688"/>
+        </NormalTexture>
+
+        <PushedTexture file="Interface/Buttons/redbutton2x">
+            <TexCoords left="0.00390625" right="0.144531" top="0.632812" bottom="0.929688"/>
+        </PushedTexture>
+
+        <DisabledTexture file="Interface/Buttons/redbutton2x">
+            <TexCoords left="0.00390625" right="0.144531" top="0.320312" bottom="0.617188"/>
+        </DisabledTexture>
+
+        <HighlightTexture file="Interface/Buttons/redbutton2x" alphaMode="ADD">
+            <TexCoords left="0.449219" right="0.589844" top="0.0078125" bottom="0.304688"/>
+        </HighlightTexture>
+    </Button>
+</Ui>
