@@ -195,6 +195,11 @@ function UIParagon_OnShow()
     if LFDParentFrame and LFDParentFrame:IsShown() then
         HideUIPanel(LFDParentFrame)
     end
+
+    -- Update micro buttons state to reflect Paragon frame is shown
+    if UpdateMicroButtons then
+        UpdateMicroButtons()
+    end
 end
 
 function UIParagon_OnHide()
@@ -212,6 +217,11 @@ function UIParagon_OnHide()
 
     if (Paragon_IsTutorialActive()) then
         Paragon_RemoveActivateTutorial()
+    end
+
+    -- Update micro buttons state to reflect Paragon frame is hidden
+    if UpdateMicroButtons then
+        UpdateMicroButtons()
     end
 end
 
