@@ -1043,129 +1043,136 @@ local Locales = {
         }
     },
     ["zhCN"] = {
-        EXPERIENCE_TEXT = "Experience %d / %d",
-        PARAGON_EXPERIENCE_TEXT = "Paragon %d / %d (%d%%)",
-        SHOW_MAINMENU_XP_LABEL = "在主界面上显示经验条",
-        SHOW_MAINMENU_XP_TOOLTIP = "如果选中，将在屏幕底部角色经验条上方显示巅峰经验条。",
-        STATISTICS_TEXT = "Statistics",
+    EXPERIENCE_TEXT = "经验 %d / %d",
+    PARAGON_EXPERIENCE_TEXT = "巅峰等级 %d / %d（%d%%）",
+    SHOW_MAINMENU_XP_LABEL = "在游戏主界面，显示巅峰经验条",
+    SHOW_MAINMENU_XP_TOOLTIP = "选中后，会在人物原版经验条上方额外添加巅峰经验条。",
+    STATISTICS_TEXT = "属性统计",
 
-        -- ========================================================================
-        -- CATEGORY NAMES (Custom translations)
-        -- ========================================================================
-        DEFENSE_TEXT = "Defense",
-        ATTACK_TEXT = "Attack",
-        MAGIC_TEXT = "Magic",
-        OTHER_TEXT = "Other",
+    -- ========================================================================
+    -- CATEGORY NAMES (Custom translations)
+    -- ========================================================================
+    DEFENSE_TEXT = "防御",
+    ATTACK_TEXT = "攻击",
+    MAGIC_TEXT = "法术",
+    OTHER_TEXT = "其他",
 
-        -- Tooltip instructions
-        TOOLTIP_INSTRUCTIONS = "Left/Right click to add/remove one point.\nScroll up/down to add/remove several.\nMiddle click for quick assignment.",
-        TOOLTIP_LIMIT = "Limit: %d",
+    -- Tooltip instructions
+    TOOLTIP_INSTRUCTIONS = "左键/右键增加/扣除1点。\n滚轮上/下批量增减点数。\n中键快捷分配。",
+    TOOLTIP_LIMIT = "上限：%d",
 
-        -- Points display
-        POINTS_TO_SPEND = "(%d %s to spend)",
-        POINTS_SINGULAR = "point",
-        POINTS_PLURAL = "points",
+    -- Points display
+    POINTS_TO_SPEND = "（剩余%d点可分配）",
+    POINTS_SINGULAR = "点数",
+    POINTS_PLURAL = "点数",
 
-        -- Popup dialogs
-        POPUP_CHOOSE_ACTION = "Do you want to add or remove points?",
-        POPUP_BUTTON_ADD = "Add",
-        POPUP_BUTTON_REMOVE = "Remove",
-        POPUP_ENTER_AMOUNT = "How many points do you want to %s in %s?",
-        POPUP_ACTION_ADD = "add",
-        POPUP_ACTION_REMOVE = "remove",
-        POPUP_BUTTON_CONFIRM = "Confirm",
-        POPUP_BUTTON_CANCEL = "Cancel",
+    -- ========================================================================
+    -- POPUP DIALOGS
+    -- ========================================================================
+    POPUP_CHOOSE_ACTION = "增加还是扣除属性点？",
+    POPUP_BUTTON_ADD = "增加",
+    POPUP_BUTTON_REMOVE = "扣除",
+    POPUP_ENTER_AMOUNT = "需要在%s上%s多少点数？",
+    POPUP_ACTION_ADD = "增加",
+    POPUP_ACTION_REMOVE = "扣除",
+    POPUP_BUTTON_CONFIRM = "确认",
+    POPUP_BUTTON_CANCEL = "取消",
 
-        -- ========================================================================
-        -- TUTORIAL MODE
-        -- ========================================================================
-        BUTTON_HELP = "?",
-        TUTORIAL_TITLE = "Help - Paragon Interface",
-        TUTORIAL_BUTTON_NEXT = "Next",
-        TUTORIAL_BUTTON_PREVIOUS = "Previous",
-        TUTORIAL_BUTTON_CLOSE = "Close",
-        TUTORIAL_BUTTON_FINISH = "Finish",
-        TUTORIAL_STEP_COUNTER = "Step %d/%d",
-        TUTORIAL_COMPLETE = "Tutorial complete!",
-        TUTORIAL_LEVEL = "Paragon Level|nDisplays your current level in the Paragon system.",
-        TUTORIAL_XP_BAR = "Paragon Experience Bar|nShows your progress to the next level.|nHover to see XP details.",
-        TUTORIAL_POINTS = "Available Points|nPoints you can spend on statistics.|nEarned by leveling up.",
-        TUTORIAL_HELP_BUTTON = "Help Button|nRestarts this tutorial at any time.|nClick to show this help.",
-        TUTORIAL_CATEGORIES = "Stat Categories|nThematic groups: Defense, Attack, Magic, Other.|nEach category contains specific stats.",
-        TUTORIAL_STATS = "Stat Interactions|n|nLeft click: +1 point|nRight click: -1 point|nScroll up: +5 points|nScroll down: -5 points|nMiddle click: Quick assignment|n|nHover a stat to see its description.",
+    -- ========================================================================
+    -- APPLY BUTTON
+    -- ========================================================================
+    APPLY_BUTTON_TEXT = "应用",
 
-        -- ========================================================================
-        -- STATISTICS
-        -- ========================================================================
-        STATISTICS = {
-            -- Combat Rating Statistics
-            COMBAT_RATING = {
-                WEAPON_SKILL            = { name = "Weapon Skill", description = "Increases your skill with all weapons." },
-                DEFENSE_SKILL           = { name = "Defense Skill", description = "Increases your defense skill against attacks." },
-                DODGE                   = { name = "Dodge", description = "Increases your dodge rating." },
-                PARRY                   = { name = "Parry", description = "Increases your parry rating." },
-                BLOCK                   = { name = "Block", description = "Increases your block rating." },
-                HIT_MELEE               = { name = "Hit (Melee)", description = "Increases your melee hit chance." },
-                HIT_RANGED              = { name = "Hit (Ranged)", description = "Increases your ranged hit chance." },
-                HIT_SPELL               = { name = "Hit (Spell)", description = "Increases your spell hit chance." },
-                CRIT_MELEE              = { name = "Critical (Melee)", description = "Increases your melee critical chance." },
-                CRIT_RANGED             = { name = "Critical (Ranged)", description = "Increases your ranged critical chance." },
-                CRIT_SPELL              = { name = "Critical (Spell)", description = "Increases your spell critical chance." },
-                HIT_TAKEN_MELEE         = { name = "Hit Taken (Melee)", description = "Increases chance to be hit by melee attacks." },
-                HIT_TAKEN_RANGED        = { name = "Hit Taken (Ranged)", description = "Increases chance to be hit by ranged attacks." },
-                HIT_TAKEN_SPELL         = { name = "Hit Taken (Spell)", description = "Increases chance to be hit by spells." },
-                CRIT_TAKEN_MELEE        = { name = "Critical Taken (Melee)", description = "Increases chance to receive melee criticals." },
-                CRIT_TAKEN_RANGED       = { name = "Critical Taken (Ranged)", description = "Increases chance to receive ranged criticals." },
-                CRIT_TAKEN_SPELL        = { name = "Critical Taken (Spell)", description = "Increases chance to receive spell criticals." },
-                HASTE_MELEE             = { name = "Haste (Melee)", description = "Increases your melee attack speed." },
-                HASTE_RANGED            = { name = "Haste (Ranged)", description = "Increases your ranged attack speed." },
-                HASTE_SPELL             = { name = "Haste (Spell)", description = "Increases your spell casting speed." },
-                WEAPON_SKILL_MAINHAND   = { name = "Skill (Main Hand)", description = "Increases your main hand weapon skill." },
-                WEAPON_SKILL_OFFHAND    = { name = "Skill (Off Hand)", description = "Increases your off hand weapon skill." },
-                WEAPON_SKILL_RANGED     = { name = "Skill (Ranged)", description = "Increases your ranged weapon skill." },
-                EXPERTISE               = { name = "Expertise", description = "Reduces target's dodge and parry chances." },
-                ARMOR_PENETRATION       = { name = "Armor Penetration", description = "Ignores a percentage of the target's armor." },
-            },
+    -- ========================================================================
+    -- TUTORIAL MODE
+    -- ========================================================================
+    BUTTON_HELP = "教程",
+    TUTORIAL_TITLE = "帮助 - 巅峰加点界面",
+    TUTORIAL_BUTTON_NEXT = "下一步",
+    TUTORIAL_BUTTON_PREVIOUS = "上一步",
+    TUTORIAL_BUTTON_CLOSE = "关闭",
+    TUTORIAL_BUTTON_FINISH = "完成",
+    TUTORIAL_STEP_COUNTER = "第%d/%d步",
+    TUTORIAL_COMPLETE = "教程完成！",
+    TUTORIAL_LEVEL = "巅峰等级|n显示当前巅峰等级。",
+    TUTORIAL_XP_BAR = "巅峰经验条|n显示升级进度。|n悬停查看经验详情。",
+    TUTORIAL_POINTS = "可用点数|n升级获得，用于分配属性。",
+    TUTORIAL_HELP_BUTTON = "帮助按钮|n随时重新打开教程。",
+    TUTORIAL_CATEGORIES = "属性分类|n分为防御、攻击、法术、其他四类。",
+    TUTORIAL_STATS = "属性操作|n|n左键:+1|n右键:-1|n滚轮上:+5|n滚轮下:-5|n中键:快捷分配|n|n悬停查看属性说明。",
 
-            -- Unit Modifier Statistics
-            UNIT_MODS = {
-                STAT_STRENGTH           = { name = "Strength", description = "Increases your Strength, improving melee attack power." },
-                STAT_AGILITY            = { name = "Agility", description = "Increases your Agility, improving ranged attack power, dodge, and critical chance." },
-                STAT_STAMINA            = { name = "Stamina", description = "Increases your Stamina, improving health pool." },
-                STAT_INTELLECT          = { name = "Intellect", description = "Increases your Intellect, improving spell power and mana pool." },
-                STAT_SPIRIT             = { name = "Spirit", description = "Increases your Spirit, improving mana and health regeneration." },
-                HEALTH                  = { name = "Health", description = "Increases your health pool." },
-                MANA                    = { name = "Mana", description = "Increases your mana pool." },
-                RAGE                    = { name = "Rage", description = "Increases your rage generation (warriors and druids)." },
-                FOCUS                   = { name = "Focus", description = "Increases your focus pool (hunters)." },
-                ENERGY                  = { name = "Energy", description = "Increases your energy regeneration (rogues and druids)." },
-                HAPPINESS               = { name = "Happiness", description = "Increases your pet's happiness (hunters)." },
-                RUNE                    = { name = "Runes", description = "Increases rune regeneration (death knights)." },
-                RUNIC_POWER             = { name = "Runic Power", description = "Increases your runic power pool (death knights)." },
-                ARMOR                   = { name = "Armor", description = "Increases your armor value, reducing physical damage taken." },
-                RESISTANCE_HOLY         = { name = "Holy Resistance", description = "Increases your resistance to holy damage." },
-                RESISTANCE_FIRE         = { name = "Fire Resistance", description = "Increases your resistance to fire damage." },
-                RESISTANCE_NATURE       = { name = "Nature Resistance", description = "Increases your resistance to nature damage." },
-                RESISTANCE_FROST        = { name = "Frost Resistance", description = "Increases your resistance to frost damage." },
-                RESISTANCE_SHADOW       = { name = "Shadow Resistance", description = "Increases your resistance to shadow damage." },
-                RESISTANCE_ARCANE       = { name = "Arcane Resistance", description = "Increases your resistance to arcane damage." },
-                ATTACK_POWER            = { name = "Attack Power (Melee)", description = "Increases damage dealt with melee weapons." },
-                ATTACK_POWER_RANGED     = { name = "Attack Power (Ranged)", description = "Increases damage dealt with ranged weapons." },
-                DAMAGE_MAINHAND         = { name = "Damage (Main Hand)", description = "Increases main hand weapon damage." },
-                DAMAGE_OFFHAND          = { name = "Damage (Off Hand)", description = "Increases off hand weapon damage." },
-                DAMAGE_RANGED           = { name = "Damage (Ranged)", description = "Increases ranged weapon damage." },
-            },
+    -- ========================================================================
+    -- STATISTICS
+    -- ========================================================================
+    STATISTICS = {
+        -- Combat Rating Statistics
+        COMBAT_RATING = {
+            WEAPON_SKILL            = { name = "全武器技能", description = "提升所有武器的武器技能。" },
+            DEFENSE_SKILL           = { name = "防御技能", description = "提升自身防御技能。" },
+            DODGE                   = { name = "躲闪等级", description = "提升躲闪等级。" },
+            PARRY                   = { name = "招架等级", description = "提升招架等级。" },
+            BLOCK                   = { name = "格挡等级", description = "提升盾牌格挡等级。" },
+            HIT_MELEE               = { name = "近战命中等级", description = "提升近战命中几率。" },
+            HIT_RANGED              = { name = "远程命中等级", description = "提升远程命中几率。" },
+            HIT_SPELL               = { name = "法术命中等级", description = "提升法术命中几率。" },
+            CRIT_MELEE              = { name = "近战暴击等级", description = "提升近战暴击几率。" },
+            CRIT_RANGED             = { name = "远程暴击等级", description = "提升远程暴击几率。" },
+            CRIT_SPELL              = { name = "法术暴击等级", description = "提升法术暴击几率。" },
+            HIT_TAKEN_MELEE         = { name = "易被近战命中", description = "提升受到近战攻击命中的概率。" },       -- NOTE: Does this increase OR decrease damage taken
+            HIT_TAKEN_RANGED        = { name = "易被远程命中", description = "提升受到远程攻击命中的概率。" },
+            HIT_TAKEN_SPELL         = { name = "易被法术命中", description = "提升受到法术命中的概率。" },
+            CRIT_TAKEN_MELEE        = { name = "易被近战暴击", description = "提升受到近战暴击的概率。" },
+            CRIT_TAKEN_RANGED       = { name = "易被远程暴击", description = "提升受到远程暴击的概率。" },
+            CRIT_TAKEN_SPELL        = { name = "易被法术暴击", description = "提升受到法术暴击的概率。" },
+            HASTE_MELEE             = { name = "近战急速等级", description = "提升近战攻击速度。" },
+            HASTE_RANGED            = { name = "远程急速等级", description = "提升远程攻击速度。" },
+            HASTE_SPELL             = { name = "法术急速等级", description = "提升法术施法速度。" },
+            WEAPON_SKILL_MAINHAND   = { name = "主手武器技能", description = "提升主手武器技能。" },
+            WEAPON_SKILL_OFFHAND    = { name = "副手武器技能", description = "提升副手武器技能。" },
+            WEAPON_SKILL_RANGED     = { name = "远程武器技能", description = "提升远程武器技能。" },
+            EXPERTISE               = { name = "精准等级", description = "降低目标躲闪与招架你的攻击的概率。" },
+            ARMOR_PENETRATION       = { name = "护甲穿透等级", description = "攻击忽略目标一定比例护甲。" },
+        },
 
-            -- Aura Bonuses
-            AURA = {
-                LOOT                    = { name = "战利品奖励", description = "增加获得更好品质战利品的几率。" },
-                REPUTATION              = { name = "声望奖励", description = "增加从阵营获得的声望点数。" },
-                EXPERIENCE              = { name = "经验奖励", description = "倍增获得的经验值。" },
-                GOLD                    = { name = "金币奖励", description = "增加从敌人身上获得的金币数量。" },
-                MOVE_SPEED              = { name = "速度奖励", description = "增加移动速度。" },
-            }
+        -- Unit Modifier Statistics
+        UNIT_MODS = {
+            STAT_STRENGTH           = { name = "力量", description = "提升力量属性，增加近战攻击强度。" },
+            STAT_AGILITY            = { name = "敏捷", description = "提升敏捷属性，增加远程攻强、躲闪与暴击几率。" },
+            STAT_STAMINA            = { name = "耐力", description = "提升耐力属性，增加生命值上限。" },
+            STAT_INTELLECT          = { name = "智力", description = "提升智力属性，增加法术强度与法力上限。" },
+            STAT_SPIRIT             = { name = "精神", description = "提升精神属性，加快生命与法力回复速度。" },
+            HEALTH                  = { name = "生命值上限", description = "提升生命值上限。" },
+            MANA                    = { name = "法力值上限", description = "提升法力值上限。" },
+            RAGE                    = { name = "怒气获取", description = "提升怒气获取效率（战士、德鲁伊）。" },
+            FOCUS                   = { name = "集中值上限", description = "提升集中值上限（猎人）。" },
+            ENERGY                  = { name = "能量恢复", description = "提升能量恢复速度（盗贼、德鲁伊）。" },
+            HAPPINESS               = { name = "宠物快乐值", description = "提升宠物快乐值（猎人）。" },
+            RUNE                    = { name = "符文恢复", description = "加快符文冷却恢复（死亡骑士）。" },
+            RUNIC_POWER             = { name = "符文能量上限", description = "提升符文能量上限（死亡骑士）。" },
+            ARMOR                   = { name = "护甲值", description = "提升护甲数值，减免受到的物理伤害。" },
+            RESISTANCE_HOLY         = { name = "神圣抗性", description = "提升神圣法术抗性。" },
+            RESISTANCE_FIRE         = { name = "火焰抗性", description = "提升火焰法术抗性。" },
+            RESISTANCE_NATURE       = { name = "自然抗性", description = "提升自然法术抗性。" },
+            RESISTANCE_FROST        = { name = "冰霜抗性", description = "提升冰霜法术抗性。" },
+            RESISTANCE_SHADOW       = { name = "暗影抗性", description = "提升暗影法术抗性。" },
+            RESISTANCE_ARCANE       = { name = "奥术抗性", description = "提升奥术法术抗性。" },
+            ATTACK_POWER            = { name = "近战攻击强度", description = "提升近战武器造成的伤害。" },
+            ATTACK_POWER_RANGED     = { name = "远程攻击强度", description = "提升远程武器造成的伤害。" },
+            DAMAGE_MAINHAND         = { name = "主手武器伤害", description = "提升主手武器伤害。" },
+            DAMAGE_OFFHAND          = { name = "副手武器伤害", description = "提升副手武器伤害。" },
+            DAMAGE_RANGED           = { name = "远程武器伤害", description = "提升远程武器伤害。" },
+        },
+
+        -- Aura Bonuses
+        AURA = {
+            LOOT                    = { name = "战利品奖励", description = "增加获得更好品质战利品的几率。" },
+            REPUTATION              = { name = "声望奖励", description = "增加从阵营获得的声望点数。" },
+            EXPERIENCE              = { name = "经验奖励", description = "倍增获得的经验值。" },
+            GOLD                    = { name = "金币奖励", description = "增加从敌人身上获得的金币数量。" },
+            MOVE_SPEED              = { name = "移速奖励", description = "增加移动速度。" },
         }
-    },
+    }
+},
     ["zhTW"] = {
         EXPERIENCE_TEXT = "Experience %d / %d",
         PARAGON_EXPERIENCE_TEXT = "Paragon %d / %d (%d%%)",
